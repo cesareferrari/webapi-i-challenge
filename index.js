@@ -5,6 +5,8 @@ const db = require('./data/db.js');
 
 const server = express();
 
+server.use(express.json());
+
 server.get('/api/users', (req, res) => {
   db.find()
     .then(users => {
@@ -25,7 +27,21 @@ server.get('/api/users/:id', (req, res) => {
     .catch(err => {
       res.status(500).json({success: false, err});
     })
-})
+});
+
+
+server.post('/api/users', (req, res) => {
+  const user = req.body;
+  console.log(user);
+
+  db.insert(user)
+    .then(user => {
+      res.status(201).json({success: true, user});
+    })
+    .catch(err => {
+      res.status(500).json({success: false, err});
+    })
+});
 
 
 
