@@ -16,6 +16,17 @@ server.get('/api/users', (req, res) => {
 });
 
 
+server.get('/api/users/:id', (req, res) => {
+  const {id} = req.params;
+  db.findById(id)
+    .then(user => {
+      res.status(200).json(user);
+    })
+    .catch(err => {
+      res.status(500).json({success: false, err});
+    })
+})
+
 
 
 server.listen(4000, () => {
