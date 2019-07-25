@@ -32,15 +32,19 @@ server.get('/api/users/:id', (req, res) => {
 
 server.post('/api/users', (req, res) => {
   const user = req.body;
-  console.log(user);
 
-  db.insert(user)
-    .then(user => {
-      res.status(201).json({success: true, user});
-    })
-    .catch(err => {
-      res.status(500).json({success: false, err});
-    })
+  if (user && user.name && user.bio) {
+    db.insert(user)
+      .then(user => {
+        res.status(201).json({success: true, user});
+      })
+      .catch(err => {
+        res.status(500).json({error: "There was an error while saving the user to the database"});
+      })
+  } else {
+    res.status(400).json({errorMessage: "Please provide name and bio for the user."})
+  }
+
 });
 
 server.delete('/api/users/:id', (req, res) => {
