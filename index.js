@@ -59,6 +59,24 @@ server.delete('/api/users/:id', (req, res) => {
     })
 });
 
+server.put('/api/users/:id', (req, res) => {
+  const {id} = req.params;
+  const user = req.body;
+  console.log(user);
+
+  db.update(id, user)
+    .then(updated => {
+      if (updated) {
+        res.status(200).json({success: true, updated});
+      } else {
+        res.status(404).json({success: false, message: "I cannot find the user"})
+      }
+    })
+    .catch(err => {
+      res.status(500).json({success: false, err});
+    })
+});
+
 
 server.listen(4000, () => {
   console.log('Server listening on port 4000');
