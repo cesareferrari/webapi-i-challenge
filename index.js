@@ -59,11 +59,11 @@ server.delete('/api/users/:id', (req, res) => {
       if (deleted) {
         res.status(204).end();
       } else {
-        res.status(404).json({success: false, message: 'I cannot find the user'});
+        res.status(404).json({message: "The user with the specified ID does not exist."});
       }
     })
     .catch(err => {
-      res.status(500).json({success: false, err});
+      res.status(500).json({error: "The user could not be removed"});
     })
 });
 
